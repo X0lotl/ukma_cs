@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         Title="Date picker app" Height="450" Width="800">
     <Grid Margin="0,0,0,241">
-        <DatePicker x:Name="DataPicker" Margin="30,37,294,89"/>
-        <Button x:Name="Button" Margin="511,37,150,89" Click="Button_Click" Background="#FF2DE0ED">Calculate</Button>
-        <TextBlock x:Name="TextBlock" Margin="81,192,140,-109"></TextBlock>
+        <DatePicker x:Name="DataPicker" Margin="30,37,294,89" FontSize="24"/>
+        <Button x:Name="Button" Margin="511,37,108,89" Click="Button_Click" Background="#FF2DE0ED" FontSize="24">Розрахувати</Button>
+        <TextBlock x:Name="TextBlock" Margin="87,136,134,-219" FontSize="24"></TextBlock>
     </Grid>
 </Window>
