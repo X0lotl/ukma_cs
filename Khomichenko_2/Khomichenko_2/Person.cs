@@ -47,7 +47,7 @@ namespace Khomichenko_2
         public bool IsBirthDay()
         {
             DateTime now = DateTime.Now;
-            if (this.DateOfBirth.Date == now.Date)
+            if (this.DateOfBirth.Date.Day == now.Date.Day && this.DateOfBirth.Date.Month == now.Date.Month)
             {
                 return true;
             }

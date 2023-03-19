@@ -34,7 +34,6 @@ namespace Khomichenko_2
 
             if (dateOfBirthPicker.SelectedDate == null || firstname == "" || lastname == "" || email == "")
             {
-                Console.WriteLine("Повна хуйня");
                 output.Content = "Введіть всі потрібні данні!!!!";
             }
             else
