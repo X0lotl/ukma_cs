@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Khomichenko_2
@@ -55,18 +56,38 @@ namespace Khomichenko_2
             return false;
         }
 
-        public bool IsDateValid()
+        public void IsValid() {
+            IsDateValid();
+            IsEmailValid();
+        }
+
+        private void IsEmailValid() {
+
+            // Регулярний вираз для перевірки електронної пошти
+            string pattern = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
+                + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<=.{1,256})(@)(?!\.)([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?(\.))+[a-z0-9]([a-z0-9-]{0,126}[a-z0-9])?(?<!\.)$";
+
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+
+            if (!regex.IsMatch(this.Email)) {
+                throw new CustomExeption("Введіть правильний email");
+            }
+        }
+
+        private void IsDateValid()
         {
             DateTime now = DateTime.Now;
 
             this.Age = (int)((now.Date - this.DateOfBirth.Date).TotalDays / 365.2425);
 
-            if (this.DateOfBirth > now.Date || this.Age > 135)
+            if (this.DateOfBirth > now.Date)
             {
-                return false;
+                throw new CustomExeption("Ви ще не народились!");
             }
 
-            return true;
+            if (this.Age > 135) {
+                throw new Exception("Ви занадто старі!");
+            }
         }
 
         public bool IsAdult() 

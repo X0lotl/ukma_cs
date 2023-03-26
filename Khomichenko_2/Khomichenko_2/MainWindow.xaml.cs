@@ -48,26 +48,31 @@ namespace Khomichenko_2
                 person.DateOfBirth = dateOfBirth;
 
 
-                if (!person.IsDateValid())
-                {
-                    output.Content += "Введіть валідну \n дату народження \n (Не більше ніж сьогодні, \n але й ваш вік має бути меншим за 135)";
-                    return;
+                try {
+                    person.IsValid();
+
+                    if (person.IsBirthDay())
+                    {
+                        output.Content = "Вітаю з днем народження \n";
+                    }
+
+                    output.Content += "Iм'я: " + person.FirstName + "\n";
+                    output.Content += "Прізвище: " + person.LastName + "\n";
+                    output.Content += "Email: " + person.Email + "\n";
+                    output.Content += "Дата народження: " + person.DateOfBirth.Date + "\n";
+
+                    output.Content += "Ви дорослий ? " + person.IsAdult() + "\n";
+                    output.Content += "Ваш знак зодіаку: " + person.SunSign() + "\n";
+                    output.Content += "Ваш китайський знак зодіаку: \n" + person.ChineseSign() + "\n";
+                    output.Content += "Сьогодні ваш день народження ? \n" + person.IsBirthDay() + "\n";
+
+                } catch (CustomExeption ex) {
+                    output.Content = ex.Message;
                 }
 
-                if (person.IsBirthDay())
-                {
-                    output.Content = "Вітаю з днем народження \n";
-                }
+                
 
-                output.Content += "Iм'я: " + person.FirstName + "\n";
-                output.Content += "Прізвище: " + person.LastName + "\n";
-                output.Content += "Email: " + person.Email + "\n";
-                output.Content += "Дата народження: " + person.DateOfBirth.Date + "\n";
 
-                output.Content += "Ви дорослий ? " + person.IsAdult() + "\n";
-                output.Content += "Ваш знак зодіаку: " + person.SunSign() + "\n";
-                output.Content += "Ваш китайський знак зодіаку: \n" + person.ChineseSign() + "\n";
-                output.Content += "Сьогодні ваш день народження ? \n" + person.IsBirthDay() + "\n";
             }
         }
     }

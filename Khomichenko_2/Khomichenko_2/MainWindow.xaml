@@ -16,7 +16,7 @@
         <TextBox x:Name="firstnameInput" HorizontalAlignment="Left" Height="24" Margin="38,110,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250"/>
         <Label Content="Ім'я" HorizontalAlignment="Left" Height="31" Margin="38,79,0,0" VerticalAlignment="Top" Width="250"/>
         <Label Content="Введіть всі данні:" HorizontalAlignment="Left" Height="49" Margin="38,30,0,0" VerticalAlignment="Top" Width="234" FontSize="24"/>
-        <Label x:Name="output" Content="" HorizontalAlignment="Left" Height="311" Margin="446,44,0,0" VerticalAlignment="Top" Width="245" FontSize="16"/>
+        <Label x:Name="output" Content="" HorizontalAlignment="Left" Height="326" Margin="314,44,0,0" VerticalAlignment="Top" Width="465" FontSize="16"/>
         <Label Content="Дата народження:" HorizontalAlignment="Left" Height="31" Margin="38,242,0,0" VerticalAlignment="Top" Width="250"/>
 
     </Grid>
