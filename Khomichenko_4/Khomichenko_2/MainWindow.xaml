@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Khomichenko_2"
         mc:Ignorable="d"
-        Title="Хоміченко лабораторна 4" Height="929" Width="1957">
+        Title="Хоміченко лабораторна 4" Height="929" Width="1920
+        ">
     <Grid>
         <DatePicker x:Name="dateOfBirthPicker" HorizontalAlignment="Left" Margin="36,401,0,0" VerticalAlignment="Top" Height="41" Width="250"/>
         <Button Content="Додати до таблиці" HorizontalAlignment="Left" Height="52" Margin="57,472,0,0" VerticalAlignment="Top" Width="114" Click="Button_Click" Background="#FF61F9E8" BorderBrush="White"/>
@@ -16,7 +17,7 @@
         <TextBox x:Name="firstnameInput" HorizontalAlignment="Left" Height="24" Margin="36,238,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="250"/>
         <Label Content="Ім'я" HorizontalAlignment="Left" Height="31" Margin="36,207,0,0" VerticalAlignment="Top" Width="250"/>
         <Label Content="Введіть всі данні:" HorizontalAlignment="Left" Height="49" Margin="36,158,0,0" VerticalAlignment="Top" Width="234" FontSize="24"/>
-        <Label x:Name="output" Content="" HorizontalAlignment="Left" Height="326" Margin="10,553,0,0" VerticalAlignment="Top" Width="320" FontSize="16"/>
+        <Label x:Name="output" Content="" HorizontalAlignment="Left" Height="150" Margin="10,553,0,0" VerticalAlignment="Top" Width="320" FontSize="16"/>
         <Label Content="Дата народження:" HorizontalAlignment="Left" Height="31" Margin="36,370,0,0" VerticalAlignment="Top" Width="250"/>
         <StackPanel Orientation="Horizontal" Margin="30,26,189,815">
             <Label Content="Індекс:" />
@@ -27,8 +28,7 @@
             <TextBox x:Name="LastNameFilter" Width="100" Margin="5" TextChanged="Filter_TextChanged" />
             <Label Content="Email:" />
             <TextBox x:Name="EmailFilter" Width="150" Margin="5" TextChanged="Filter_TextChanged" />
-            <Label Content="Дата народження:" />
-            <TextBox x:Name="DateOfBirthFilter" Width="100" Margin="5" TextChanged="Filter_TextChanged" />
+            
             <Label Content="Вік:" />
             <TextBox x:Name="AgeFilter" Width="50" Margin="5" TextChanged="Filter_TextChanged" />
             <Label Content="Дорослий:" />
@@ -37,10 +37,10 @@
             <TextBox x:Name="SunSignFilter" Width="100" Margin="5" TextChanged="Filter_TextChanged" />
             <Label Content="Китайський знак:" />
             <TextBox x:Name="ChineseSignFilter" Width="100" Margin="5" TextChanged="Filter_TextChanged" />
-            <Label Content="День народження:" />
-            <TextBox x:Name="IsBirthdayFilter" Width="118" Margin="5" TextChanged="Filter_TextChanged" />
+            <Label Content="День народження?:" />
+            <TextBox x:Name="IsBirthdayFilter" Width="108" Margin="5" TextChanged="Filter_TextChanged" />
         </StackPanel>
-        <DataGrid x:Name="table" AutoGenerateColumns="False" CanUserSortColumns="True" Margin="376,134,10,56">
+        <DataGrid x:Name="table" AutoGenerateColumns="False" CanUserSortColumns="True" Margin="376,134,627,56">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Index, Mode=OneWay}" />
                 <DataGridTextColumn Header="FirstName" Binding="{Binding FirstName, Mode=TwoWay}"/>
@@ -61,5 +61,9 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <StackPanel Margin="11,708,1609,76">
+            <Button Content="Save" Width="131" Margin="4" Click="SaveButton_Click"  Background="#FF89F93F" Height="49" />
+            <Button Content="Load" Width="131" Margin="4" Click="LoadButton_Click"  Background="#FFFDF05D" Height="49" />
+        </StackPanel>
     </Grid>
 </Window>

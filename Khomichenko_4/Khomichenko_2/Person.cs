@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace Khomichenko_2
 {
-    internal class Person : INotifyPropertyChanged
+    public class Person : INotifyPropertyChanged
     {
         private int _index = 0;
         private string _firstName = "";

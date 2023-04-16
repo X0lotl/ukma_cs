@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Khomichenko_2
 {
@@ -18,7 +20,7 @@ namespace Khomichenko_2
 
 
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 50; i++)
             {
                 Person newPerson = new Person();
 
@@ -41,6 +43,44 @@ namespace Khomichenko_2
 
 
             return data;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            string fileName = "data.xml";
+            SaveDataToFile(fileName);
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            string fileName = "data.xml";
+            LoadDataFromFile(fileName);
+        }
+
+        private void SaveDataToFile(string fileName)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<Person>));
+
+            using (StreamWriter writer = new StreamWriter(fileName))
+            {
+                serializer.Serialize(writer, _originalPersons);
+            }
+        }
+
+        private void LoadDataFromFile(string fileName)
+        {
+            if (File.Exists(fileName))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<Person>));
+
+                using (StreamReader reader = new StreamReader(fileName))
+                {
+                    _originalPersons = (ObservableCollection<Person>)serializer.Deserialize(reader);
+                }
+
+                // Оновити таблицю
+                table.ItemsSource = new ObservableCollection<Person>(_originalPersons);
+            }
         }
 
         private int RandomIndex(int arrayLength)
@@ -94,7 +134,6 @@ namespace Khomichenko_2
             string firstNameFilter = FirstNameFilter.Text.ToLower();
             string lastNameFilter = LastNameFilter.Text.ToLower();
             string emailFilter = EmailFilter.Text.ToLower();
-            string dateOfBirthFilter = DateOfBirthFilter.Text.ToLower();
             string ageFilter = AgeFilter.Text.ToLower();
             string isAdultFilter = IsAdultFilter.Text.ToLower();
             string sunSignFilter = SunSignFilter.Text.ToLower();
@@ -106,7 +145,6 @@ namespace Khomichenko_2
                 person.FirstName.ToLower().Contains(firstNameFilter) &&
                 person.LastName.ToLower().Contains(lastNameFilter) &&
                 person.Email.ToLower().Contains(emailFilter) &&
-                person.DateOfBirth.ToString("d").Contains(dateOfBirthFilter) &&
                 person.Age.ToString().Contains(ageFilter) &&
                 person.IsAdult.ToString().ToLower().Contains(isAdultFilter) &&
                 person.SunSign.ToLower().Contains(sunSignFilter) &&
