@@ -1,28 +1,120 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Khomichenko_2
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
+        private ObservableCollection<Person> _originalPersons;
+        private ObservableCollection<Person> GenerateData()
+        {
+            string[] names = { "Danylo", "Artem", "Oksana", "Antonina", "Georgy", "Myhailo", "Vova", "Mykyta", "Oleksiy" };
+            string[] lastNames = { "Khomichenko", "Tarasenko", "Shevchenko", "Bondarchuk", "Nestorov", "Porubiy", "Lashko", "Zelenskyi", "Smith", "Ford" };
+
+            ObservableCollection<Person> data = new ObservableCollection<Person>();
+
+
+
+            for (int i = 0; i < 500; i++)
+            {
+                Person newPerson = new Person();
+
+                newPerson.FirstName = names[RandomIndex(names.Length)];
+                newPerson.LastName = lastNames[RandomIndex(lastNames.Length)];
+                newPerson.Email = RandomEmail(new Random().Next(10) + 5);
+                newPerson.DateOfBirth = RandomDateTime();
+                newPerson.Index = i + 1;
+                try
+                {
+                    newPerson.IsValid();
+                    data.Add(newPerson);
+                }
+                catch (CustomExeption ex)
+                {
+                    output.Content = ex.Message;
+                }
+
+            }
+
+
+            return data;
+        }
+
+        private int RandomIndex(int arrayLength)
+        {
+            var random = new Random();
+            return random.Next(arrayLength);
+        }
+
+        private DateTime RandomDateTime()
+        {
+            DateTime start = new DateTime(1901, 1, 1);
+            var range = DateTime.Now - start;
+            var randomValue = new TimeSpan((long)(new Random().NextDouble() * range.Ticks));
+            return start + randomValue;
+        }
+
+        private string RandomEmail(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+            var random = new Random();
+            var localPart = new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+
+
+            return $"{localPart}@gmail.com";
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _originalPersons = GenerateData();
+
+            table.ItemsSource = _originalPersons;
+        }
+
+        private void AddUserToTable(Person person)
+        {
+            person.Index = _originalPersons.Last().Index + 1;
+
+            _originalPersons.Add(person);
+
+            table.ItemsSource = _originalPersons;
+        }
+
+        private void Filter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (_originalPersons == null)
+                return;
+
+            string indexFilter = IndexFilter.Text.ToLower();
+            string firstNameFilter = FirstNameFilter.Text.ToLower();
+            string lastNameFilter = LastNameFilter.Text.ToLower();
+            string emailFilter = EmailFilter.Text.ToLower();
+            string dateOfBirthFilter = DateOfBirthFilter.Text.ToLower();
+            string ageFilter = AgeFilter.Text.ToLower();
+            string isAdultFilter = IsAdultFilter.Text.ToLower();
+            string sunSignFilter = SunSignFilter.Text.ToLower();
+            string chineseSignFilter = ChineseSignFilter.Text.ToLower();
+            string isBirthdayFilter = IsBirthdayFilter.Text.ToLower();
+
+            var filteredList = _originalPersons.Where(person =>
+                person.Index.ToString().Contains(indexFilter) &&
+                person.FirstName.ToLower().Contains(firstNameFilter) &&
+                person.LastName.ToLower().Contains(lastNameFilter) &&
+                person.Email.ToLower().Contains(emailFilter) &&
+                person.DateOfBirth.ToString("d").Contains(dateOfBirthFilter) &&
+                person.Age.ToString().Contains(ageFilter) &&
+                person.IsAdult.ToString().ToLower().Contains(isAdultFilter) &&
+                person.SunSign.ToLower().Contains(sunSignFilter) &&
+                person.ChineseSign.ToLower().Contains(chineseSignFilter) &&
+                person.IsBirthDay.ToString().ToLower().Contains(isBirthdayFilter)
+            ).ToList();
+
+            table.ItemsSource = new ObservableCollection<Person>(filteredList);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -48,31 +140,36 @@ namespace Khomichenko_2
                 person.DateOfBirth = dateOfBirth;
 
 
-                try {
+                try
+                {
                     person.IsValid();
 
-                    if (person.IsBirthDay())
+                    if (person.IsBirthDay)
                     {
                         output.Content = "Вітаю з днем народження \n";
                     }
 
-                    output.Content += "Iм'я: " + person.FirstName + "\n";
-                    output.Content += "Прізвище: " + person.LastName + "\n";
-                    output.Content += "Email: " + person.Email + "\n";
-                    output.Content += "Дата народження: " + person.DateOfBirth.Date + "\n";
+                    AddUserToTable(person);
 
-                    output.Content += "Ви дорослий ? " + person.IsAdult() + "\n";
-                    output.Content += "Ваш знак зодіаку: " + person.SunSign() + "\n";
-                    output.Content += "Ваш китайський знак зодіаку: \n" + person.ChineseSign() + "\n";
-                    output.Content += "Сьогодні ваш день народження ? \n" + person.IsBirthDay() + "\n";
-
-                } catch (CustomExeption ex) {
+                }
+                catch (CustomExeption ex)
+                {
                     output.Content = ex.Message;
                 }
+            }
+        }
 
-                
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Ви дійсно хочете видалити цей елемент?", "Видалити елемент", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                Button button = (Button)sender;
+                Person personToDelete = (Person)button.DataContext;
 
+                _originalPersons.Remove(personToDelete);
 
+                ObservableCollection<Person> persons = (ObservableCollection<Person>)table.ItemsSource;
+                persons.Remove(personToDelete);
             }
         }
     }
